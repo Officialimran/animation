@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Smooth Hero Text Animation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    #typewriter span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s, transform 0.3s;
+    }
+  .type-caret::after {
+    content: "|";
+    margin-left: 4px;
+    animation: blink 1s infinite;
+    opacity: 0.7;
+    }
+
+    @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+    }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    }
+</style>
+</head>
+
+<body class="bg-gray-50">
+
+    <div class="flex items-start space-x-2 py-4 px-4">
+        <a href="index.html">English</a>
+        <a href="bangla.html">Bangla</a>
+    </div>
+
+  <!-- HERO SECTION -->
+  <section class="min-h-screen flex flex-col items-start justify-center px-6">
+
+    <h2 class="hero-small-title [animation:float_4s_ease-in-out_infinite] text-[#57C5BC] font-extrabold font-objectsans text-[30px] sm:text-[22px] md:text-[26px] lg:text-[30px] xl:text-[40px] leading-[100%] uppercase mb-4 md:mb-0">পিএইচপি এরাবিয়ান<br>হর্স সুপার </h2>
+
+    <h3 class="animate-pulse [animation-duration:4s] hero-main-title text-gray-600 font-extrabold font-poppins text-[26px] sm:text-[22px] md:text-[26px] lg:text-[30px] xl:text-[36px] leading-[48px] mt-3 mb-2 uppercase">
+    জিনিস যেটা ভালো
+    </h3>
+
+    <h1 id="typewriter" class="hero-description
+           text-gray-600 font-objectsans font-normal
+           text-[16px] sm:text-[16px] md:text-[16px] lg:text-[18px] xl:text-[20px]
+            leading-[100%] mt-3
+            [animation:float_4s_ease-in-out_infinite]">
+    দাম তার একটু বেশি।
+    </h1>
+
+  </section>
+
+  <!-- SMOOTH LOOP SCRIPT -->
+   <script>
+    const el = document.getElementById("typewriter");
+    const text = el.textContent.trim();
+    el.textContent = "";
+
+    // Bangla safe grapheme split
+    const segmenter = new Intl.Segmenter("bn", { granularity: "grapheme" });
+    const chars = [...segmenter.segment(text)].map(segment => {
+      const span = document.createElement("span");
+      span.textContent = segment.segment === " " ? "\u00A0" : segment.segment;
+      el.appendChild(span);
+      return span;
+    });
+
+    function animateIn() {
+      chars.forEach((span, i) => {
+        setTimeout(() => {
+          span.style.opacity = 1;
+          span.style.transform = "translateY(0)";
+        }, i * 100);
+      });
+    }
+
+    function animateOut() {
+      chars.forEach((span, i) => {
+        setTimeout(() => {
+          span.style.opacity = 0;
+          span.style.transform = "translateY(-6px)";
+        }, i * 50);
+      });
+    }
+
+    function loop() {
+      animateIn();
+      setTimeout(() => {
+        animateOut();
+        setTimeout(loop, chars.length * 50 + 600);
+      }, chars.length * 100 + 1200);
+    }
+
+    loop();
+    </script>
+
+    
+
+</body>
+</html>
