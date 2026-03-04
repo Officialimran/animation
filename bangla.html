@@ -104,7 +104,57 @@
     loop();
     </script>
 
-    
+
+    <!-- ei script dilt bangla and english both kaj korbe er jonno bangal english er jonno alada kono script dite hobe na -->
+    <!--
+    <script>
+      const el = document.getElementById("typewriter");
+      const text = el.textContent.trim();
+      el.textContent = "";
+
+      // Grapheme-safe segmentation (Bangla friendly)
+      const segmenter = new Intl.Segmenter("bn", { granularity: "grapheme" });
+      const chars = [...segmenter.segment(text)].map(seg => {
+        const span = document.createElement("span");
+        span.textContent = seg.segment === " " ? "\u00A0" : seg.segment;
+        span.style.opacity = 0;
+        span.style.display = "inline-block";
+        span.style.transform = "translateY(6px)";
+        span.style.transition = "all 0.4s ease";
+        el.appendChild(span);
+        return span;
+      });
+
+      function animateIn() {
+        chars.forEach((span, i) => {
+          setTimeout(() => {
+            span.style.opacity = 1;
+            span.style.transform = "translateY(0)";
+          }, i * 120);
+        });
+      }
+
+      function animateOut() {
+        chars.forEach((span, i) => {
+          setTimeout(() => {
+            span.style.opacity = 0;
+            span.style.transform = "translateY(-6px)";
+          }, i * 60);
+        });
+      }
+
+      function loop() {
+        animateIn();
+        setTimeout(() => {
+          animateOut();
+          setTimeout(loop, chars.length * 60 + 600);
+        }, chars.length * 120 + 1500);
+      }
+
+      loop();
+    </script>
+
+    -->
 
 </body>
 </html>
